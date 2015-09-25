@@ -5,7 +5,7 @@ bl_info = {
 	"blender": (2, 74),
 	"location": "View3D / Graph Editor / Node Editor > alt-Q key",
 	"description": "Quick alignment on axis",
-	"warning": "",
+	"warning": "image editor not work",
 	"wiki_url": "none",
 	"category": "User",
 }
