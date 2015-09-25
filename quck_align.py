@@ -3,7 +3,7 @@ bl_info = {
 	"author": "nexus-studio",
 	"version": (0, 4),
 	"blender": (2, 74),
-	"location": "View3D / Graph Editor > alt-Q key",
+	"location": "View3D / Graph Editor / Node Editor > alt-Q key",
 	"description": "Quick alignment on axis",
 	"warning": "",
 	"wiki_url": "none",
