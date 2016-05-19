@@ -24,6 +24,25 @@ def align_XYZ(x, y, z, axisX, axisY, axisZ):
 def align_graph(x, y, z, axisX, axisY, axisZ):
 	bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
+#Pivot point
+
+class ObjectSetOrogin(bpy.types.Operator):
+    """Fast set origin"""
+    bl_idname = "view3d.set_origin"
+    bl_label = "Set origin to active vertex"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, context):
+                
+        if bpy.context.mode == 'EDIT_MESH':
+            bpy.ops.view3d.snap_cursor_to_active()
+            bpy.ops.object.editmode_toggle()
+            bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
+            #bpy.ops.object.editmode_toggle()
+
+        return {'FINISHED'}
+
+
 # -----------------------------------------------------------------------------
 # View 3d
 class VIEW3D_align_x_slots(bpy.types.Operator):
@@ -169,6 +188,7 @@ class view3d_menu(bpy.types.Menu):
 		layout.operator("view3d.align_x_slots", text="X align", icon='COLOR_RED')
 		layout.operator("view3d.align_y_slots", text="Y align", icon='COLOR_GREEN')
 		layout.operator("view3d.align_z_slots", text="Z align", icon='COLOR_BLUE')
+		layout.operator("view3d.set_origin", text="OriginToVertex", icon='EDIT')
 
 class graph_menu(bpy.types.Menu):
 	bl_label = "Quick align"
