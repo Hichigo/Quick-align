@@ -1,10 +1,10 @@
 bl_info = {
 	"name": "Quick align",
 	"author": "nexus-studio",
-	"version": (0, 4),
-	"blender": (2, 74),
+	"version": (0, 5),
+	"blender": (2, 77),
 	"location": "View3D / Graph Editor / Node Editor > alt-Q key",
-	"description": "Quick alignment on axis",
+	"description": "Quick alignment on axis and fast set origin",
 	"warning": "image editor not work",
 	"wiki_url": "none",
 	"category": "User",
