@@ -9,7 +9,6 @@ bl_info = {
 	"wiki_url": "none",
 	"category": "User",
 }
-
 import bpy
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
