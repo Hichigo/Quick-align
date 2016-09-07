@@ -9,7 +9,10 @@ bl_info = {
 	"wiki_url": "none",
 	"category": "User",
 }
+
 import bpy
+
+
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
 def align_XYZ(x, y, z, axisX, axisY, axisZ):
