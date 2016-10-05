@@ -18,12 +18,7 @@ from bpy.props import StringProperty, BoolProperty, EnumProperty
 def align_XYZ(x, y, z, axisX, axisY, axisZ):
 	piv = bpy.context.space_data.pivot_point
 	scene = bpy.context.scene
-	if scene.active:
-		bpy.context.space_data.pivot_point = "ACTIVE_ELEMENT"
-	elif scene.median_point:
-		bpy.context.space_data.pivot_point = "MEDIAN_POINT"
-	elif scene.cursor:
-		bpy.context.space_data.pivot_point = "CURSOR"
+	bpy.context.space_data.pivot_point = scene.regarding
 
 	if bpy.context.mode == 'OBJECT':
 		bpy.context.space_data.use_pivot_point_align = True
@@ -41,20 +36,19 @@ def align_graph(x, y, z, axisX, axisY, axisZ):
 #Pivot point
 
 class ObjectSetOrogin(bpy.types.Operator):
-    """Fast set origin to active vertex / polygon / edge"""
-    bl_idname = "view3d.set_origin"
-    bl_label = "Set origin to active vertex / polygon / edge"
-    bl_options = {'REGISTER', 'UNDO'}
+	"""Fast set origin to active vertex / polygon / edge"""
+	bl_idname = "view3d.set_origin"
+	bl_label = "Set origin to active vertex / polygon / edge"
+	bl_options = {'REGISTER', 'UNDO'}
 
-    def execute(self, context):
-                
-        if bpy.context.mode == 'EDIT_MESH':
-		        bpy.ops.view3d.snap_cursor_to_active()
-		        bpy.ops.object.editmode_toggle()
-		        bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
-            #bpy.ops.object.editmode_toggle()
+	def execute(self, context):
+		if bpy.context.mode == 'EDIT_MESH':
+			bpy.ops.view3d.snap_cursor_to_active()
+			bpy.ops.object.editmode_toggle()
+			bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
+			#bpy.ops.object.editmode_toggle()
 
-        return {'FINISHED'}
+		return {'FINISHED'}
 
 
 # -----------------------------------------------------------------------------
@@ -254,34 +248,20 @@ class NexusToolsPanel(bpy.types.Panel):
 	bl_space_type = 'VIEW_3D'
 	bl_region_type = 'TOOLS'
 	bl_category = "Nexus Tools"
-	bl_context = "objectmode"
-	
-	bpy.types.Scene.active = BoolProperty(
-		name = "active",
-		default = False,
-		description = "Active element align"
-	)
 
-	bpy.types.Scene.median_point = BoolProperty(
-		name = "median_point",
-		default = False,
-		description = "Median point align"
-	)
+	itemsEnum = [
+		("ACTIVE_ELEMENT", "Active element", ""),
+		("MEDIAN_POINT", "Median point", ""),
+		("CURSOR", "3D Cursor", "")
+	]
 
-	bpy.types.Scene.cursor = BoolProperty(
-		name = "cursor",
-		default = False,
-		description = "Cursor align"
-	)
-
+	bpy.types.Scene.regarding = EnumProperty(items=itemsEnum)
 
 	def draw(self, context):
 		layout = self.layout
 		scene = context.scene
 		col = layout.column()
-		col.prop(scene, "active", text="Active element", expand=True)
-		col.prop(scene, "median_point", text="Median point", expand=True)
-		col.prop(scene, "cursor", text="3D Cursor", expand=True)
+		col.prop(scene, "regarding", expand=True)
 
 addon_keymaps = []
 keymapsList = [
