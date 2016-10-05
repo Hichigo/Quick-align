@@ -1,6 +1,6 @@
 bl_info = {
 	"name": "Quick align",
-	"author": "nexus-studio",
+	"author": "Nexus Studio",
 	"version": (0, 7),
 	"blender": (2, 78),
 	"location": "View3D / Graph Editor / Node Editor > alt-Q key",
