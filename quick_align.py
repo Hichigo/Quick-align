@@ -241,7 +241,7 @@ class node_menu(bpy.types.Menu):
 		layout.operator("node.align_y_slots", text="Y align", icon='COLOR_GREEN')
 
 #class panel
-class NexusToolsPanel(bpy.types.Panel):
+class QuickAlignPanel(bpy.types.Panel):
 	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
 	bl_label = "Quick align"
 	bl_idname = "quickalignid"
@@ -260,7 +260,9 @@ class NexusToolsPanel(bpy.types.Panel):
 	def draw(self, context):
 		layout = self.layout
 		scene = context.scene
-		col = layout.column()
+		box = layout.box()
+		box.label(text="Align by:")
+		col = box.column()
 		col.prop(scene, "regarding", expand=True)
 
 addon_keymaps = []
@@ -288,6 +290,7 @@ keymapsList = [
 ]
 def register():
 	bpy.utils.register_module(__name__)
+	bpy.utils.register_class(QuickAlignPanel)
 
 	kc = bpy.context.window_manager.keyconfigs.addon
 	if kc:
@@ -299,6 +302,7 @@ def register():
 
 def unregister():
 	bpy.utils.unregister_module(__name__)
+	bpy.utils.unregister_class(QuickAlignPanel)
 
 	wm = bpy.context.window_manager
 	if wm.keyconfigs.addon:
