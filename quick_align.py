@@ -1,8 +1,8 @@
 bl_info = {
 	"name": "Quick align",
 	"author": "nexus-studio",
-	"version": (0, 5),
-	"blender": (2, 77),
+	"version": (0, 7),
+	"blender": (2, 78),
 	"location": "View3D / Graph Editor / Node Editor > alt-Q key",
 	"description": "Quick alignment on axis and fast set origin",
 	"warning": "image editor not work",
@@ -16,6 +16,15 @@ import bpy
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
 def align_XYZ(x, y, z, axisX, axisY, axisZ):
+	piv = bpy.context.space_data.pivot_point
+	scene = bpy.context.scene
+	if scene.active:
+		bpy.context.space_data.pivot_point = "ACTIVE_ELEMENT"
+	elif scene.median_point:
+		bpy.context.space_data.pivot_point = "MEDIAN_POINT"
+	elif scene.cursor:
+		bpy.context.space_data.pivot_point = "CURSOR"
+
 	if bpy.context.mode == 'OBJECT':
 		bpy.context.space_data.use_pivot_point_align = True
 		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
@@ -23,23 +32,26 @@ def align_XYZ(x, y, z, axisX, axisY, axisZ):
 	else:
 		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
+	bpy.context.space_data.pivot_point = piv
+
+
 def align_graph(x, y, z, axisX, axisY, axisZ):
 	bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
 #Pivot point
 
 class ObjectSetOrogin(bpy.types.Operator):
-    """Fast set origin"""
+    """Fast set origin to active vertex / polygon / edge"""
     bl_idname = "view3d.set_origin"
-    bl_label = "Set origin to active vertex"
+    bl_label = "Set origin to active vertex / polygon / edge"
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
                 
         if bpy.context.mode == 'EDIT_MESH':
-            bpy.ops.view3d.snap_cursor_to_active()
-            bpy.ops.object.editmode_toggle()
-            bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
+		        bpy.ops.view3d.snap_cursor_to_active()
+		        bpy.ops.object.editmode_toggle()
+		        bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
             #bpy.ops.object.editmode_toggle()
 
         return {'FINISHED'}
@@ -47,6 +59,20 @@ class ObjectSetOrogin(bpy.types.Operator):
 
 # -----------------------------------------------------------------------------
 # View 3d
+class VIEW3D_align_all_axis(bpy.types.Operator):
+	"""the alignment along the x-axis in view 3d (object or edit mode)"""
+	bl_idname = "view3d.align_all_axis"
+	bl_label = "Align x"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	@classmethod
+	def poll(cls, context):
+		return context.active_object is not None
+
+	def execute(self, context):
+		align_XYZ(0,0,0,True,True,True)
+		return {'FINISHED'}
+
 class VIEW3D_align_x_slots(bpy.types.Operator):
 	"""the alignment along the x-axis in view 3d (object or edit mode)"""
 	bl_idname = "view3d.align_x_slots"
@@ -187,10 +213,11 @@ class view3d_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
+		layout.operator("view3d.align_all_axis", text="Align all axis", icon='MANIPUL')
 		layout.operator("view3d.align_x_slots", text="X align", icon='COLOR_RED')
 		layout.operator("view3d.align_y_slots", text="Y align", icon='COLOR_GREEN')
 		layout.operator("view3d.align_z_slots", text="Z align", icon='COLOR_BLUE')
-		layout.operator("view3d.set_origin", text="OriginToVertex", icon='EDIT')
+		layout.operator("view3d.set_origin", text="SetOrigin", icon='FORCE_FORCE')
 
 class graph_menu(bpy.types.Menu):
 	bl_label = "Quick align"
@@ -218,6 +245,43 @@ class node_menu(bpy.types.Menu):
 		layout.operator_context = 'INVOKE_REGION_WIN'
 		layout.operator("node.align_x_slots", text="X align", icon='COLOR_RED')
 		layout.operator("node.align_y_slots", text="Y align", icon='COLOR_GREEN')
+
+#class panel
+class NexusToolsPanel(bpy.types.Panel):
+	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
+	bl_label = "Quick align"
+	bl_idname = "quickalignid"
+	bl_space_type = 'VIEW_3D'
+	bl_region_type = 'TOOLS'
+	bl_category = "Nexus Tools"
+	bl_context = "objectmode"
+	
+	bpy.types.Scene.active = BoolProperty(
+		name = "active",
+		default = False,
+		description = "Active element align"
+	)
+
+	bpy.types.Scene.median_point = BoolProperty(
+		name = "median_point",
+		default = False,
+		description = "Median point align"
+	)
+
+	bpy.types.Scene.cursor = BoolProperty(
+		name = "cursor",
+		default = False,
+		description = "Cursor align"
+	)
+
+
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		col = layout.column()
+		col.prop(scene, "active", text="Active element", expand=True)
+		col.prop(scene, "median_point", text="Median point", expand=True)
+		col.prop(scene, "cursor", text="3D Cursor", expand=True)
 
 addon_keymaps = []
 keymapsList = [
