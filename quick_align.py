@@ -207,6 +207,7 @@ class view3d_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
+		layout.menu(align_submenu.bl_idname, text="Align by")
 		layout.operator("view3d.align_all_axis", text="Align all axis", icon='MANIPUL')
 		layout.operator("view3d.align_x_slots", text="X align", icon='COLOR_RED')
 		layout.operator("view3d.align_y_slots", text="Y align", icon='COLOR_GREEN')
@@ -239,6 +240,16 @@ class node_menu(bpy.types.Menu):
 		layout.operator_context = 'INVOKE_REGION_WIN'
 		layout.operator("node.align_x_slots", text="X align", icon='COLOR_RED')
 		layout.operator("node.align_y_slots", text="Y align", icon='COLOR_GREEN')
+
+class align_submenu(bpy.types.Menu):
+	bl_idname = "alignsubmenu"
+	bl_label = "Quick align"
+
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		layout.operator_context = 'INVOKE_REGION_WIN'
+		layout.prop(scene, "regarding", expand=True)
 
 #class panel
 class QuickAlignPanel(bpy.types.Panel):
@@ -288,6 +299,7 @@ keymapsList = [
 		'prop_name': "node_menu"
 	}
 ]
+
 def register():
 	bpy.utils.register_module(__name__)
 
