@@ -12,7 +12,6 @@ bl_info = {
 
 import bpy
 
-
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
 def align_XYZ(x, y, z, axisX, axisY, axisZ):
@@ -206,13 +205,14 @@ class view3d_menu(bpy.types.Menu):
 
 	def draw(self, context):
 		layout = self.layout
+		sd = context.space_data
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.menu(align_submenu.bl_idname, text="Align by")
 		layout.operator("view3d.align_all_axis", text="Align all axis", icon='MANIPUL')
 		layout.operator("view3d.align_x_slots", text="X align", icon='COLOR_RED')
 		layout.operator("view3d.align_y_slots", text="Y align", icon='COLOR_GREEN')
 		layout.operator("view3d.align_z_slots", text="Z align", icon='COLOR_BLUE')
 		layout.operator("view3d.set_origin", text="SetOrigin", icon='FORCE_FORCE')
+		layout.menu(align_submenu.bl_idname, text="Align by")
 
 class graph_menu(bpy.types.Menu):
 	bl_label = "Quick align"
