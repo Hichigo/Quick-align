@@ -290,7 +290,6 @@ keymapsList = [
 ]
 def register():
 	bpy.utils.register_module(__name__)
-	bpy.utils.register_class(QuickAlignPanel)
 
 	kc = bpy.context.window_manager.keyconfigs.addon
 	if kc:
@@ -302,7 +301,6 @@ def register():
 
 def unregister():
 	bpy.utils.unregister_module(__name__)
-	bpy.utils.unregister_class(QuickAlignPanel)
 
 	wm = bpy.context.window_manager
 	if wm.keyconfigs.addon:
