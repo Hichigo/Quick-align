@@ -48,6 +48,8 @@ class ObjectSetOrogin(bpy.types.Operator):
 			bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR');
 			bpy.context.scene.cursor_location = cursor_location_temp;
 			#bpy.ops.object.editmode_toggle()
+		elif bpy.context.mode == 'OBJECT':
+			bpy.ops.object.origin_set(type = 'ORIGIN_GEOMETRY');
 
 		return {'FINISHED'}
 
