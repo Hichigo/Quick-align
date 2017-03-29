@@ -42,9 +42,12 @@ class ObjectSetOrogin(bpy.types.Operator):
 
 	def execute(self, context):
 		if bpy.context.mode == 'EDIT_MESH':
-			bpy.ops.view3d.snap_cursor_to_selected()
-			bpy.ops.object.editmode_toggle()
-			bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
+			cursor_location_temp = bpy.context.scene.cursor_location;
+			bpy.ops.view3d.snap_cursor_to_selected();
+			bpy.ops.object.editmode_toggle();
+			bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR');
+			bpy.context.scene.cursor_location = cursor_location_temp;
+			print(cursor_location_temp);
 			#bpy.ops.object.editmode_toggle()
 
 		return {'FINISHED'}
