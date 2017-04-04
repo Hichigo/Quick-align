@@ -5,7 +5,6 @@ bl_info = {
 	"blender": (2, 78),
 	"location": "View3D / Graph Editor / Node Editor > alt-Q key",
 	"description": "Quick alignment on axis and fast set origin",
-	"warning": "image editor not work",
 	"wiki_url": "none",
 	"category": "User",
 }
@@ -288,7 +287,7 @@ keymapsList = [
 		'prop_name': "view3d_menu"
 	},
 	{
-		'name_view': "UV/Image Editor",
+		'name_view': "Image",
 		'space_type': "IMAGE_EDITOR",
 		'prop_name': "uv_menu"
 	},
