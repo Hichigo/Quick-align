@@ -40,7 +40,7 @@ class ObjectSetOrogin(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 
 	def execute(self, context):
-		if bpy.context.mode == 'EDIT_MESH':
+		if (bpy.context.mode == 'EDIT_MESH') or (bpy.context.mode ==  'EDIT_CURVE'):
 			cursor_location_temp = (bpy.context.scene.cursor_location.x,bpy.context.scene.cursor_location.y, bpy.context.scene.cursor_location.z);
 			bpy.ops.view3d.snap_cursor_to_selected();
 			bpy.ops.object.editmode_toggle();
