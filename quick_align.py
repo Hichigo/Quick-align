@@ -33,7 +33,7 @@ def align_graph(x, y, z, axisX, axisY, axisZ):
 
 #Pivot point
 
-class ObjectSetOrogin(bpy.types.Operator):
+class ObjectSetOrigin(bpy.types.Operator):
 	"""Fast set origin to active vertex / polygon / edge"""
 	bl_idname = "view3d.set_origin"
 	bl_label = "Set origin to active vertex / polygon / edge"
@@ -213,7 +213,7 @@ class view3d_menu(bpy.types.Menu):
 		layout.operator(VIEW3D_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
 		layout.operator(VIEW3D_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 		layout.operator(VIEW3D_align_z_slots.bl_idname, text="Z align", icon='EVENT_Z')
-		layout.operator(ObjectSetOrogin.bl_idname, text="SetOrigin", icon='OBJECT_ORIGIN')
+		layout.operator(ObjectSetOrigin.bl_idname, text="SetOrigin", icon='OBJECT_ORIGIN')
 		layout.menu(align_submenu.bl_idname, text="Align by")
 
 class graph_menu(bpy.types.Menu):
@@ -303,7 +303,7 @@ keymapsList = [
 ]
 
 classes = (
-	ObjectSetOrogin,
+	ObjectSetOrigin,
 	VIEW3D_align_all_axis,
 	VIEW3D_align_x_slots,
 	VIEW3D_align_y_slots,
