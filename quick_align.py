@@ -249,9 +249,9 @@ class align_submenu(bpy.types.Menu):
 
 	def draw(self, context):
 		layout = self.layout
-		scene = context.scene
+		tools_settings = context.scene.tool_settings
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.prop(scene, "regarding", expand=True)
+		layout.prop(tools_settings, "transform_pivot_point", expand=True)
 
 #class panel
 class QuickAlignPanel(bpy.types.Panel):
