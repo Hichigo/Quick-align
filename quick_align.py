@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Quick align",
 	"author": "Nexus Studio",
 	"version": (0, 7),
-	"blender": (2, 78),
+	"blender": (2, 80, 0),
 	"location": "View3D / Graph Editor / Node Editor / Image Editor > alt-Q key",
 	"description": "Quick alignment on axis and fast set origin",
 	"wiki_url": "none",
@@ -303,8 +303,32 @@ keymapsList = [
 	}
 ]
 
+classes = (
+	ObjectSetOrogin,
+	VIEW3D_align_all_axis,
+	VIEW3D_align_x_slots,
+	VIEW3D_align_y_slots,
+	VIEW3D_align_z_slots,
+	GRAPH_align_x_slots,
+	GRAPH_align_y_slots,
+	UV_align_x_slots,
+	UV_align_y_slots,
+	NODE_align_x_slots,
+	NODE_align_y_slots,
+	view3d_menu,
+	graph_menu,
+	uv_menu,
+	node_menu,
+	align_submenu,
+	QuickAlignPanel,
+	QuickAlignPanel
+	)
+
 def register():
-	bpy.utils.register_module(__name__)
+	# bpy.utils.register_module(__name__)
+	# from bpy.utils import register_class
+	# for cls in classes:
+	# 	register_class(cls)
 
 	kc = bpy.context.window_manager.keyconfigs.addon
 	if kc:
@@ -315,7 +339,10 @@ def register():
 			addon_keymaps.append(km)
 
 def unregister():
-	bpy.utils.unregister_module(__name__)
+	# bpy.utils.unregister_module(__name__)
+	# from bpy.utils import unregister_class
+	# for cls in reverser(classes):
+	# 	unregister_class(cls)
 
 	wm = bpy.context.window_manager
 	if wm.keyconfigs.addon:
