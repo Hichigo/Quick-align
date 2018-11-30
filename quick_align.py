@@ -257,29 +257,29 @@ class align_submenu(bpy.types.Menu):
 		layout.prop(tools_settings, "transform_pivot_point", expand=True)
 
 #class panel
-class QuickAlignPanel(bpy.types.Panel):
-	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
-	bl_label = "Quick align"
-	bl_idname = "quickalignid"
-	bl_space_type = 'VIEW_3D'
-	bl_region_type = 'TOOLS'
-	bl_category = "Nexus Tools"
+# class QuickAlignPanel(bpy.types.Panel):
+# 	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
+# 	bl_label = "Quick align"
+# 	bl_idname = "quickalignid"
+# 	bl_space_type = 'VIEW_3D'
+# 	bl_region_type = 'TOOLS'
+# 	bl_category = "Nexus Tools"
 
-	itemsEnum = [
-		("ACTIVE_ELEMENT", "Active element", ""),
-		("MEDIAN_POINT", "Median point", ""),
-		("CURSOR", "3D Cursor", "")
-	]
+# 	itemsEnum = [
+# 		("ACTIVE_ELEMENT", "Active element", ""),
+# 		("MEDIAN_POINT", "Median point", ""),
+# 		("CURSOR", "3D Cursor", "")
+# 	]
 
-	bpy.types.Scene.regarding = EnumProperty(items=itemsEnum)
+# 	bpy.types.Scene.regarding = EnumProperty(items=itemsEnum)
 
-	def draw(self, context):
-		layout = self.layout
-		scene = context.scene
-		box = layout.box()
-		box.label(text="Align by:")
-		col = box.column()
-		col.prop(scene, "regarding", expand=True)
+# 	def draw(self, context):
+# 		layout = self.layout
+# 		scene = context.scene
+# 		box = layout.box()
+# 		box.label(text="Align by:")
+# 		col = box.column()
+# 		col.prop(scene, "regarding", expand=True)
 
 addon_keymaps = []
 keymapsList = [
