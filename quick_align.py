@@ -235,7 +235,7 @@ class uv_menu(bpy.types.Menu):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
 		layout.operator(UV_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
-		layout.operator(UV_align_x_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(UV_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class node_menu(bpy.types.Menu):
 	bl_label = "Quick align"
@@ -244,7 +244,7 @@ class node_menu(bpy.types.Menu):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
 		layout.operator(NODE_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
-		layout.operator(NODE_align_x_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(NODE_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class align_submenu(bpy.types.Menu):
 	bl_idname = "alignsubmenu"
