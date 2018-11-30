@@ -1,7 +1,7 @@
 bl_info = {
 	"name": "Quick align",
 	"author": "Nexus Studio",
-	"version": (0, 7),
+	"version": (0, 7, 1),
 	"blender": (2, 80, 0),
 	"location": "View3D / Graph Editor / Node Editor / Image Editor > alt-Q key",
 	"description": "Quick alignment on axis and fast set origin",
@@ -19,9 +19,9 @@ def align_XYZ(x, y, z, axisX, axisY, axisZ):
 	# bpy.context.space_data.pivot_point = scene.regarding
 
 	if bpy.context.mode == 'OBJECT':
-		bpy.context.space_data.use_pivot_point_align = True
+		# bpy.context.space_data.use_pivot_point_align = True
 		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
-		bpy.context.space_data.use_pivot_point_align = False
+		# bpy.context.space_data.use_pivot_point_align = False
 	else:
 		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
@@ -313,12 +313,12 @@ classes = (
 	UV_align_x_slots,
 	UV_align_y_slots,
 	NODE_align_x_slots,
-	NODE_align_y_slots
-	# view3d_menu,
-	# graph_menu,
-	# uv_menu,
-	# node_menu,
-	# align_submenu,
+	NODE_align_y_slots,
+	view3d_menu,
+	graph_menu,
+	uv_menu,
+	node_menu,
+	align_submenu
 	# QuickAlignPanel
 	)
 
