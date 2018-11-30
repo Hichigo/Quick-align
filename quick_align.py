@@ -14,9 +14,9 @@ import bpy
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
 def align_XYZ(x, y, z, axisX, axisY, axisZ):
-	piv = bpy.context.space_data.pivot_point
-	scene = bpy.context.scene
-	bpy.context.space_data.pivot_point = scene.regarding
+	# piv = bpy.context.space_data.pivot_point
+	# scene = bpy.context.scene
+	# bpy.context.space_data.pivot_point = scene.regarding
 
 	if bpy.context.mode == 'OBJECT':
 		bpy.context.space_data.use_pivot_point_align = True
@@ -25,7 +25,7 @@ def align_XYZ(x, y, z, axisX, axisY, axisZ):
 	else:
 		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
-	bpy.context.space_data.pivot_point = piv
+	# bpy.context.space_data.pivot_point = piv
 
 
 def align_graph(x, y, z, axisX, axisY, axisZ):
@@ -208,13 +208,12 @@ class view3d_menu(bpy.types.Menu):
 
 	def draw(self, context):
 		layout = self.layout
-		sd = context.space_data
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator("view3d.align_all_axis", text="Align all axis", icon='MANIPUL')
-		layout.operator("view3d.align_x_slots", text="X align", icon='COLOR_RED')
-		layout.operator("view3d.align_y_slots", text="Y align", icon='COLOR_GREEN')
-		layout.operator("view3d.align_z_slots", text="Z align", icon='COLOR_BLUE')
-		layout.operator("view3d.set_origin", text="SetOrigin", icon='FORCE_FORCE')
+		layout.operator(VIEW3D_align_all_axis.bl_idname, text="Align all axis", icon='EMPTY_AXIS')
+		layout.operator(VIEW3D_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(VIEW3D_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(VIEW3D_align_z_slots.bl_idname, text="Z align", icon='EVENT_Z')
+		layout.operator(ObjectSetOrogin.bl_idname, text="SetOrigin", icon='OBJECT_ORIGIN')
 		layout.menu(align_submenu.bl_idname, text="Align by")
 
 class graph_menu(bpy.types.Menu):
@@ -223,8 +222,8 @@ class graph_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator("graph.align_x_slots", text="X align", icon='COLOR_RED')
-		layout.operator("graph.align_y_slots", text="Y align", icon='COLOR_GREEN')
+		layout.operator(GRAPH_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(GRAPH_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class uv_menu(bpy.types.Menu):
 	bl_label = "Quick align"
@@ -232,8 +231,8 @@ class uv_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator("uv.align_x_slots", text="X align", icon='COLOR_RED')
-		layout.operator("uv.align_y_slots", text="Y align", icon='COLOR_GREEN')
+		layout.operator(UV_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(UV_align_x_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class node_menu(bpy.types.Menu):
 	bl_label = "Quick align"
@@ -241,8 +240,8 @@ class node_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator("node.align_x_slots", text="X align", icon='COLOR_RED')
-		layout.operator("node.align_y_slots", text="Y align", icon='COLOR_GREEN')
+		layout.operator(NODE_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(NODE_align_x_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class align_submenu(bpy.types.Menu):
 	bl_idname = "alignsubmenu"
@@ -314,21 +313,20 @@ classes = (
 	UV_align_x_slots,
 	UV_align_y_slots,
 	NODE_align_x_slots,
-	NODE_align_y_slots,
-	view3d_menu,
-	graph_menu,
-	uv_menu,
-	node_menu,
-	align_submenu,
-	QuickAlignPanel,
-	QuickAlignPanel
+	NODE_align_y_slots
+	# view3d_menu,
+	# graph_menu,
+	# uv_menu,
+	# node_menu,
+	# align_submenu,
+	# QuickAlignPanel
 	)
 
 def register():
 	# bpy.utils.register_module(__name__)
-	# from bpy.utils import register_class
-	# for cls in classes:
-	# 	register_class(cls)
+	from bpy.utils import register_class
+	for cls in classes:
+		register_class(cls)
 
 	kc = bpy.context.window_manager.keyconfigs.addon
 	if kc:
@@ -340,9 +338,9 @@ def register():
 
 def unregister():
 	# bpy.utils.unregister_module(__name__)
-	# from bpy.utils import unregister_class
-	# for cls in reverser(classes):
-	# 	unregister_class(cls)
+	from bpy.utils import unregister_class
+	for cls in reversed(classes):
+		unregister_class(cls)
 
 	wm = bpy.context.window_manager
 	if wm.keyconfigs.addon:
