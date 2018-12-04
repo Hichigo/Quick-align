@@ -354,3 +354,42 @@ def unregister():
 
 if __name__ == "__main__":
 	register()
+
+
+#################### FOR DROP TO GROUND #####################
+# import bpy
+# from mathutils import *
+
+# ground = bpy.context.active_object
+# obs = bpy.context.selected_objects
+# down = Vector((0.0, 0.0, -1.0))
+
+# obs.remove(ground)
+
+
+
+# def transform_ground_to_world(sc, ground):
+#     tmpMesh = ground.to_mesh(sc, True, 'PREVIEW')
+#     tmpMesh.transform(ground.matrix_world)
+#     tmp_ground = bpy.data.objects.new('tmpGround', tmpMesh)
+#     sc.objects.link(tmp_ground)
+#     sc.update()
+#     return tmp_ground
+
+
+# tmp_ground = transform_ground_to_world(bpy.context.scene, ground)
+# for ob in obs:
+#     if ob.type == "MESH":
+#         is_hit, hit_location, hit_normal, hit_index = tmp_ground.ray_cast(ob.location, down)
+        
+#         if is_hit:
+#             ob.location = hit_location
+
+# bpy.ops.object.select_all(action='DESELECT')
+# tmp_ground.select = True
+# bpy.ops.object.delete('EXEC_DEFAULT')
+# for ob in obs:
+#     ob.select = True
+# ground.select = True
+
+# print(is_hit, hit_location, hit_normal, hit_index)
