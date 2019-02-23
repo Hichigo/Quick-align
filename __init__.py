@@ -13,30 +13,11 @@ import bpy
 
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
-def align_XYZ(x, y, z, axisX, axisY, axisZ):
-	bpy.context.scene.tool_settings.use_transform_pivot_point_align = True
-
-	# piv = bpy.context.space_data.pivot_point
-	# scene = bpy.context.scene
-	# bpy.context.space_data.pivot_point = scene.regarding
-
-	if bpy.context.mode == 'OBJECT':
-		# bpy.context.space_data.use_pivot_point_align = True
-		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
-		# bpy.context.space_data.use_pivot_point_align = False
-	else:
-		bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
-
-	# bpy.context.space_data.pivot_point = piv
-	bpy.context.scene.tool_settings.use_transform_pivot_point_align = False
-
-
-def align_graph(x, y, z, axisX, axisY, axisZ):
-	bpy.ops.transform.resize(value=(x, y, z), constraint_axis=(axisX, axisY, axisZ), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
+from . functions import align_XYZ, align_graph
 
 #Pivot point
 
-class ObjectSetOrigin(bpy.types.Operator):
+class OBJECT_OT_SetOrigin(bpy.types.Operator):
 	"""Fast set origin to active vertex / polygon / edge"""
 	bl_idname = "view3d.set_origin"
 	bl_label = "Set origin to active vertex / polygon / edge"
@@ -58,7 +39,7 @@ class ObjectSetOrigin(bpy.types.Operator):
 
 # -----------------------------------------------------------------------------
 # View 3d
-class VIEW3D_align_all_axis(bpy.types.Operator):
+class VIEW3D_OT_align_all_axis(bpy.types.Operator):
 	"""the alignment along the x-axis in view 3d (object or edit mode)"""
 	bl_idname = "view3d.align_all_axis"
 	bl_label = "Align x"
@@ -72,7 +53,7 @@ class VIEW3D_align_all_axis(bpy.types.Operator):
 		align_XYZ(0,0,0,True,True,True)
 		return {'FINISHED'}
 
-class VIEW3D_align_x_slots(bpy.types.Operator):
+class VIEW3D_OT_align_x_slots(bpy.types.Operator):
 	"""the alignment along the x-axis in view 3d (object or edit mode)"""
 	bl_idname = "view3d.align_x_slots"
 	bl_label = "Align x"
@@ -86,7 +67,7 @@ class VIEW3D_align_x_slots(bpy.types.Operator):
 		align_XYZ(0,1,1,True,False,False)
 		return {'FINISHED'}
 
-class VIEW3D_align_y_slots(bpy.types.Operator):
+class VIEW3D_OT_align_y_slots(bpy.types.Operator):
 	"""the alignment along the y-axis in view 3d (object or edit mode)"""
 	bl_idname = "view3d.align_y_slots"
 	bl_label = "Align y"
@@ -100,7 +81,7 @@ class VIEW3D_align_y_slots(bpy.types.Operator):
 		align_XYZ(1,0,1,False,True,False)
 		return {'FINISHED'}
 
-class VIEW3D_align_z_slots(bpy.types.Operator):
+class VIEW3D_OT_align_z_slots(bpy.types.Operator):
 	"""the alignment along the z-axis in view 3d (object or edit mode)"""
 	bl_idname = "view3d.align_z_slots"
 	bl_label = "Align z"
@@ -116,7 +97,7 @@ class VIEW3D_align_z_slots(bpy.types.Operator):
 
 # -----------------------------------------------------------------------------
 # Graph
-class GRAPH_align_x_slots(bpy.types.Operator):
+class GRAPH_OT_align_x_slots(bpy.types.Operator):
 	"""the alignment along the x-axis in graph editor"""
 	bl_idname = "graph.align_x_slots"
 	bl_label = "Align x"
@@ -130,7 +111,7 @@ class GRAPH_align_x_slots(bpy.types.Operator):
 		align_graph(0,1,1,True,False,False)
 		return {'FINISHED'}
 
-class GRAPH_align_y_slots(bpy.types.Operator):
+class GRAPH_OT_align_y_slots(bpy.types.Operator):
 	"""the alignment along the y-axis in graph editor"""
 	bl_idname = "graph.align_y_slots"
 	bl_label = "Align y"
@@ -146,7 +127,7 @@ class GRAPH_align_y_slots(bpy.types.Operator):
 
 # -----------------------------------------------------------------------------
 # uv
-class UV_align_x_slots(bpy.types.Operator):
+class UV_OT_align_x_slots(bpy.types.Operator):
 	"""the alignment along the x-axis in uv editor"""
 	bl_idname = "uv.align_x_slots"
 	bl_label = "Align x"
@@ -160,7 +141,7 @@ class UV_align_x_slots(bpy.types.Operator):
 		align_graph(0,1,1,True,False,False)
 		return {'FINISHED'}
 
-class UV_align_y_slots(bpy.types.Operator):
+class UV_OT_align_y_slots(bpy.types.Operator):
 	"""the alignment along the y-axis in uv editor"""
 	bl_idname = "uv.align_y_slots"
 	bl_label = "Align y"
@@ -176,7 +157,7 @@ class UV_align_y_slots(bpy.types.Operator):
 
 # -----------------------------------------------------------------------------
 # node
-class NODE_align_x_slots(bpy.types.Operator):
+class NODE_OT_align_x_slots(bpy.types.Operator):
 	"""the alignment along the x-axis in node editor"""
 	bl_idname = "node.align_x_slots"
 	bl_label = "Align x"
@@ -190,7 +171,7 @@ class NODE_align_x_slots(bpy.types.Operator):
 		align_graph(0,1,1,True,False,False)
 		return {'FINISHED'}
 
-class NODE_align_y_slots(bpy.types.Operator):
+class NODE_OT_align_y_slots(bpy.types.Operator):
 	"""the alignment along the y-axis in node editor"""
 	bl_idname = "node.align_y_slots"
 	bl_label = "Align y"
@@ -212,11 +193,11 @@ class view3d_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator(VIEW3D_align_all_axis.bl_idname, text="Align all axis", icon='EMPTY_AXIS')
-		layout.operator(VIEW3D_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
-		layout.operator(VIEW3D_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
-		layout.operator(VIEW3D_align_z_slots.bl_idname, text="Z align", icon='EVENT_Z')
-		layout.operator(ObjectSetOrigin.bl_idname, text="SetOrigin", icon='OBJECT_ORIGIN')
+		layout.operator(VIEW3D_OT_align_all_axis.bl_idname, text="Align all axis", icon='EMPTY_AXIS')
+		layout.operator(VIEW3D_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(VIEW3D_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(VIEW3D_OT_align_z_slots.bl_idname, text="Z align", icon='EVENT_Z')
+		layout.operator(OBJECT_OT_SetOrigin.bl_idname, text="SetOrigin", icon='OBJECT_ORIGIN')
 		layout.menu(align_submenu.bl_idname, text="Align by")
 
 class graph_menu(bpy.types.Menu):
@@ -225,8 +206,8 @@ class graph_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator(GRAPH_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
-		layout.operator(GRAPH_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(GRAPH_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(GRAPH_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class uv_menu(bpy.types.Menu):
 	bl_label = "Quick align"
@@ -234,8 +215,8 @@ class uv_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator(UV_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
-		layout.operator(UV_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(UV_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(UV_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class node_menu(bpy.types.Menu):
 	bl_label = "Quick align"
@@ -243,8 +224,8 @@ class node_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
-		layout.operator(NODE_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
-		layout.operator(NODE_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
+		layout.operator(NODE_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
+		layout.operator(NODE_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class align_submenu(bpy.types.Menu):
 	bl_idname = "alignsubmenu"
@@ -306,17 +287,17 @@ keymapsList = [
 ]
 
 classes = (
-	ObjectSetOrigin,
-	VIEW3D_align_all_axis,
-	VIEW3D_align_x_slots,
-	VIEW3D_align_y_slots,
-	VIEW3D_align_z_slots,
-	GRAPH_align_x_slots,
-	GRAPH_align_y_slots,
-	UV_align_x_slots,
-	UV_align_y_slots,
-	NODE_align_x_slots,
-	NODE_align_y_slots,
+	OBJECT_OT_SetOrigin,
+	VIEW3D_OT_align_all_axis,
+	VIEW3D_OT_align_x_slots,
+	VIEW3D_OT_align_y_slots,
+	VIEW3D_OT_align_z_slots,
+	GRAPH_OT_align_x_slots,
+	GRAPH_OT_align_y_slots,
+	UV_OT_align_x_slots,
+	UV_OT_align_y_slots,
+	NODE_OT_align_x_slots,
+	NODE_OT_align_y_slots,
 	view3d_menu,
 	graph_menu,
 	uv_menu,
