@@ -13,12 +13,12 @@ import bpy
 
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 
-from . functions import align_XYZ, align_graph
+from .functions import align_XYZ, align_graph
 
-from . viev3d_op import *
-from . graph_op import *
-from . uv_op import *
-from . node_op import *
+from .viev3d_op import *
+from .graph_op import *
+from .uv_op import *
+from .node_op import *
 
 # -----------------------------------------------------------------------------
 #Pivot point
