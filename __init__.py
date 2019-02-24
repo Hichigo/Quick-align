@@ -15,8 +15,13 @@ from bpy.props import StringProperty, BoolProperty, EnumProperty
 
 from . functions import align_XYZ, align_graph
 
-#Pivot point
+from . viev3d_op import *
+from . graph_op import *
+from . uv_op import *
+from . node_op import *
 
+# -----------------------------------------------------------------------------
+#Pivot point
 class OBJECT_OT_SetOrigin(bpy.types.Operator):
 	"""Fast set origin to active vertex / polygon / edge"""
 	bl_idname = "view3d.set_origin"
@@ -34,155 +39,6 @@ class OBJECT_OT_SetOrigin(bpy.types.Operator):
 		elif bpy.context.mode == 'OBJECT':
 			bpy.ops.object.origin_set(type = 'ORIGIN_GEOMETRY')
 
-		return {'FINISHED'}
-
-
-# -----------------------------------------------------------------------------
-# View 3d
-class VIEW3D_OT_align_all_axis(bpy.types.Operator):
-	"""the alignment along the x-axis in view 3d (object or edit mode)"""
-	bl_idname = "view3d.align_all_axis"
-	bl_label = "Align x"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_XYZ(0,0,0,True,True,True)
-		return {'FINISHED'}
-
-class VIEW3D_OT_align_x_slots(bpy.types.Operator):
-	"""the alignment along the x-axis in view 3d (object or edit mode)"""
-	bl_idname = "view3d.align_x_slots"
-	bl_label = "Align x"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_XYZ(0,1,1,True,False,False)
-		return {'FINISHED'}
-
-class VIEW3D_OT_align_y_slots(bpy.types.Operator):
-	"""the alignment along the y-axis in view 3d (object or edit mode)"""
-	bl_idname = "view3d.align_y_slots"
-	bl_label = "Align y"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_XYZ(1,0,1,False,True,False)
-		return {'FINISHED'}
-
-class VIEW3D_OT_align_z_slots(bpy.types.Operator):
-	"""the alignment along the z-axis in view 3d (object or edit mode)"""
-	bl_idname = "view3d.align_z_slots"
-	bl_label = "Align z"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_XYZ(1,1,0,False,False,True)
-		return {'FINISHED'}
-
-# -----------------------------------------------------------------------------
-# Graph
-class GRAPH_OT_align_x_slots(bpy.types.Operator):
-	"""the alignment along the x-axis in graph editor"""
-	bl_idname = "graph.align_x_slots"
-	bl_label = "Align x"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_graph(0,1,1,True,False,False)
-		return {'FINISHED'}
-
-class GRAPH_OT_align_y_slots(bpy.types.Operator):
-	"""the alignment along the y-axis in graph editor"""
-	bl_idname = "graph.align_y_slots"
-	bl_label = "Align y"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_graph(1,0,1,False,True,False)
-		return {'FINISHED'}
-
-# -----------------------------------------------------------------------------
-# uv
-class UV_OT_align_x_slots(bpy.types.Operator):
-	"""the alignment along the x-axis in uv editor"""
-	bl_idname = "uv.align_x_slots"
-	bl_label = "Align x"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_graph(0,1,1,True,False,False)
-		return {'FINISHED'}
-
-class UV_OT_align_y_slots(bpy.types.Operator):
-	"""the alignment along the y-axis in uv editor"""
-	bl_idname = "uv.align_y_slots"
-	bl_label = "Align y"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_graph(1,0,1,False,True,False)
-		return {'FINISHED'}
-
-# -----------------------------------------------------------------------------
-# node
-class NODE_OT_align_x_slots(bpy.types.Operator):
-	"""the alignment along the x-axis in node editor"""
-	bl_idname = "node.align_x_slots"
-	bl_label = "Align x"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_graph(0,1,1,True,False,False)
-		return {'FINISHED'}
-
-class NODE_OT_align_y_slots(bpy.types.Operator):
-	"""the alignment along the y-axis in node editor"""
-	bl_idname = "node.align_y_slots"
-	bl_label = "Align y"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	@classmethod
-	def poll(cls, context):
-		return context.active_object is not None
-
-	def execute(self, context):
-		align_graph(1,0,1,False,True,False)
 		return {'FINISHED'}
 
 # -----------------------------------------------------------------------------
