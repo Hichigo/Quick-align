@@ -30,11 +30,11 @@ class OBJECT_OT_SetOrigin(bpy.types.Operator):
 
 	def execute(self, context):
 		if (bpy.context.mode == 'EDIT_MESH') or (bpy.context.mode ==  'EDIT_CURVE'):
-			cursor_location_temp = (bpy.context.scene.cursor_location.x,bpy.context.scene.cursor_location.y, bpy.context.scene.cursor_location.z)
+			cursor_location_temp = (bpy.context.scene.cursor.location.x,bpy.context.scene.cursor.location.y, bpy.context.scene.cursor.location.z)
 			bpy.ops.view3d.snap_cursor_to_selected()
 			bpy.ops.object.editmode_toggle()
 			bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
-			bpy.context.scene.cursor_location = cursor_location_temp
+			bpy.context.scene.cursor.location = cursor_location_temp
 			#bpy.ops.object.editmode_toggle()
 		elif bpy.context.mode == 'OBJECT':
 			bpy.ops.object.origin_set(type = 'ORIGIN_GEOMETRY')
