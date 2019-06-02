@@ -1,7 +1,7 @@
 bl_info = {
 	"name": "Quick align",
 	"author": "Nexus Studio",
-	"version": (0, 7, 3),
+	"version": (0, 7, 4),
 	"blender": (2, 80, 0),
 	"location": "View3D / Graph Editor / Node Editor / Image Editor > alt-Q key",
 	"description": "Quick alignment on axis and fast set origin",
@@ -43,7 +43,7 @@ class OBJECT_OT_SetOrigin(bpy.types.Operator):
 
 # -----------------------------------------------------------------------------
 # menu classes
-class view3d_menu(bpy.types.Menu):
+class VIEW3D_MT_menu(bpy.types.Menu):
 	bl_label = "Quick align"
 
 	def draw(self, context):
@@ -54,9 +54,9 @@ class view3d_menu(bpy.types.Menu):
 		layout.operator(VIEW3D_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 		layout.operator(VIEW3D_OT_align_z_slots.bl_idname, text="Z align", icon='EVENT_Z')
 		layout.operator(OBJECT_OT_SetOrigin.bl_idname, text="SetOrigin", icon='OBJECT_ORIGIN')
-		layout.menu(align_submenu.bl_idname, text="Align by")
+		layout.menu(ALIGN_MT_submenu.bl_idname, text="Align by")
 
-class graph_menu(bpy.types.Menu):
+class GRAPH_MT_menu(bpy.types.Menu):
 	bl_label = "Quick align"
 
 	def draw(self, context):
@@ -65,7 +65,7 @@ class graph_menu(bpy.types.Menu):
 		layout.operator(GRAPH_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
 		layout.operator(GRAPH_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
-class uv_menu(bpy.types.Menu):
+class UV_MT_menu(bpy.types.Menu):
 	bl_label = "Quick align"
 
 	def draw(self, context):
@@ -74,7 +74,7 @@ class uv_menu(bpy.types.Menu):
 		layout.operator(UV_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
 		layout.operator(UV_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
-class node_menu(bpy.types.Menu):
+class NODE_MT_menu(bpy.types.Menu):
 	bl_label = "Quick align"
 
 	def draw(self, context):
@@ -83,7 +83,7 @@ class node_menu(bpy.types.Menu):
 		layout.operator(NODE_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
 		layout.operator(NODE_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
-class align_submenu(bpy.types.Menu):
+class ALIGN_MT_submenu(bpy.types.Menu):
 	bl_idname = "alignsubmenu"
 	bl_label = "Quick align"
 
@@ -123,22 +123,22 @@ keymapsList = [
 	{
 		'name_view': "3D View",
 		'space_type': "VIEW_3D",
-		'prop_name': "view3d_menu"
+		'prop_name': "VIEW3D_MT_menu"
 	},
 	{
 		'name_view': "Image",
 		'space_type': "IMAGE_EDITOR",
-		'prop_name': "uv_menu"
+		'prop_name': "UV_MT_menu"
 	},
 	{
 		'name_view': "Graph Editor",
 		'space_type': "GRAPH_EDITOR",
-		'prop_name': "graph_menu"
+		'prop_name': "GRAPH_MT_menu"
 	},
 	{
 		'name_view': "Node Editor",
 		'space_type': "NODE_EDITOR",
-		'prop_name': "node_menu"
+		'prop_name': "NODE_MT_menu"
 	}
 ]
 
@@ -154,11 +154,11 @@ classes = (
 	UV_OT_align_y_slots,
 	NODE_OT_align_x_slots,
 	NODE_OT_align_y_slots,
-	view3d_menu,
-	graph_menu,
-	uv_menu,
-	node_menu,
-	align_submenu
+	VIEW3D_MT_menu,
+	GRAPH_MT_menu,
+	UV_MT_menu,
+	NODE_MT_menu,
+	ALIGN_MT_submenu
 	# QuickAlignPanel
 	)
 
