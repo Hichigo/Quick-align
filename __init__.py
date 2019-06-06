@@ -1,7 +1,7 @@
 bl_info = {
 	"name": "Quick align",
 	"author": "Nexus Studio",
-	"version": (0, 7, 4),
+	"version": (0, 7, 7),
 	"blender": (2, 80, 0),
 	"location": "View3D / Graph Editor / Node Editor / Image Editor > alt-Q key",
 	"description": "Quick alignment on axis and fast set origin",
@@ -49,6 +49,7 @@ class VIEW3D_MT_menu(bpy.types.Menu):
 	def draw(self, context):
 		layout = self.layout
 		layout.operator_context = 'INVOKE_REGION_WIN'
+		layout.operator(VIEW3D_OT_drop_to_ground.bl_idname, text="Drop to ground", icon="VIEW3D")
 		layout.operator(VIEW3D_OT_align_all_axis.bl_idname, text="Align all axis", icon='EMPTY_AXIS')
 		layout.operator(VIEW3D_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
 		layout.operator(VIEW3D_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
@@ -148,6 +149,7 @@ classes = (
 	VIEW3D_OT_align_x_slots,
 	VIEW3D_OT_align_y_slots,
 	VIEW3D_OT_align_z_slots,
+	VIEW3D_OT_drop_to_ground,
 	GRAPH_OT_align_x_slots,
 	GRAPH_OT_align_y_slots,
 	UV_OT_align_x_slots,
