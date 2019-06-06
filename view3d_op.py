@@ -1,6 +1,6 @@
 import bpy
 
-import mathutils
+from mathutils import Vector
 
 from . functions import align_XYZ
 
