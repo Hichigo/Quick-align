@@ -19,7 +19,7 @@ from .view3d_op import *
 from .graph_op import *
 from .uv_op import *
 from .node_op import *
-from .drop_to_ground_op import *
+from .DropToGround.drop_to_ground_op import *
 
 # -----------------------------------------------------------------------------
 #Pivot point
