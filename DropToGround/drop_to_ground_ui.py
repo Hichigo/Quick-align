@@ -14,13 +14,22 @@ class VIEW3D_PT_DropToGroundBase(bpy.types.Panel):
         layout = self.layout
         quick_align = context.scene.quick_align
 
+        use_align_by_normal = True
+
+        if quick_align.drop_by == "ACTIVE":
+            use_align_by_normal = False
+
         col = layout.column()
+        col.operator("view3d.drop_to_ground", text="Drop to ground", icon="VIEW3D")
+
+        col = layout.column()
+        col.enabled = use_align_by_normal
         col.prop(quick_align, "align_by_normal")
 
-        row = col.row()
+        row = layout.row()
         row.label(text="Drop by:")
         row.prop(quick_align, "drop_by", text="")
 
-        row = col.row()
+        row = layout.row()
         row.label(text="Direction Drop:")
         row.prop(quick_align, "direction_drop", text="")
