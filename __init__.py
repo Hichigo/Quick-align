@@ -19,7 +19,9 @@ from .view3d_op import *
 from .graph_op import *
 from .uv_op import *
 from .node_op import *
+from .panels import *
 from .DropToGround.drop_to_ground_op import *
+# from .DropToGround.drop_to_ground_ui import *
 
 # -----------------------------------------------------------------------------
 #Pivot point
@@ -96,29 +98,38 @@ class ALIGN_MT_submenu(bpy.types.Menu):
 		layout.prop(tools_settings, "transform_pivot_point", expand=True)
 
 #class panel
-class VIEW3D_PT_QuickAlign(bpy.types.Panel):
-	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
-	bl_label = "Quick Align"
-	bl_idname = "VIEW3D_PT_QuickAlign"
-	bl_space_type = 'VIEW_3D'
-	bl_region_type = 'UI'
-	bl_category = "Nexus"
 
-	itemsEnum = [
-		("ACTIVE_ELEMENT", "Active element", ""),
-		("MEDIAN_POINT", "Median point", ""),
-		("CURSOR", "3D Cursor", "")
-	]
 
-	bpy.types.Scene.regarding: EnumProperty(items=itemsEnum)
+class QuickAlign_WM_Properties(bpy.types.PropertyGroup):
 
-	def draw(self, context):
-		layout = self.layout
-		tools_settings = context.scene.tool_settings
-		box = layout.box()
-		box.label(text="Align by:")
-		col = box.column()
-		col.prop(tools_settings, "transform_pivot_point", expand=True)
+	align_by_normal: BoolProperty(
+		name="Align by Normal",
+		description="Align object by normal",
+		default=False
+	)
+
+	drop_by: EnumProperty(
+		name="Drop by",
+		items=[
+			("ORIGIN", "Origin", "", 0),
+			("ACTIVE", "Active Object", "", 1),
+			("3DCURSOR", "3D Cursor", "", 2)
+		],
+		default = "ORIGIN"
+	)
+
+	direction_drop: EnumProperty(
+		name="Direction Drop",
+		items=[
+			("-Z", "-Z", "", 0), # down
+			( "Z",  "Z", "", 1), # up
+			("-X", "-X", "", 2), # backward
+			( "X",  "X", "", 3), # forward
+			("-Y", "-Y", "", 4), # left
+			( "Y",  "Y", "", 5)  # right
+		],
+		default = "-Z"
+	)
 
 addon_keymaps = []
 keymapsList = [
@@ -145,12 +156,15 @@ keymapsList = [
 ]
 
 classes = (
+	QuickAlign_WM_Properties,
 	OBJECT_OT_SetOrigin,
 	VIEW3D_OT_align_all_axis,
 	VIEW3D_OT_align_x_slots,
 	VIEW3D_OT_align_y_slots,
 	VIEW3D_OT_align_z_slots,
 	VIEW3D_OT_drop_to_ground,
+	VIEW3D_PT_QuickAlign,
+	VIEW3D_PT_DropToGround,
 	GRAPH_OT_align_x_slots,
 	GRAPH_OT_align_y_slots,
 	UV_OT_align_x_slots,
@@ -161,9 +175,8 @@ classes = (
 	GRAPH_MT_menu,
 	UV_MT_menu,
 	NODE_MT_menu,
-	ALIGN_MT_submenu,
-	VIEW3D_PT_QuickAlign
-	)
+	ALIGN_MT_submenu
+)
 
 def register():
 	from bpy.utils import register_class
@@ -178,6 +191,8 @@ def register():
 			kmi.properties.name = keym['prop_name']
 			addon_keymaps.append(km)
 
+	bpy.types.Scene.quick_align = bpy.props.PointerProperty(type=QuickAlign_WM_Properties)
+
 def unregister():
 	from bpy.utils import unregister_class
 	for cls in reversed(classes):
@@ -189,6 +204,8 @@ def unregister():
 			for kmi in km.keymap_items:
 				km.keymap_items.remove(kmi)
 	addon_keymaps.clear()
+
+	del bpy.types.Scene.quick_align
 
 if __name__ == "__main__":
 	register()
