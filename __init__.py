@@ -113,7 +113,7 @@ class QuickAlign_WM_Properties(bpy.types.PropertyGroup):
 		items=[
 			("ORIGIN", "Origin", "", 0),
 			("ACTIVE", "Active Object", "", 1),
-			("3DCURSOR", "3D Cursor", "", 2)
+			# ("3DCURSOR", "3D Cursor", "", 2)
 		],
 		default = "ORIGIN"
 	)
