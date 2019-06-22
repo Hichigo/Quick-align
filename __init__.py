@@ -85,8 +85,8 @@ class NODE_MT_menu(bpy.types.Menu):
 		layout.operator(NODE_OT_align_y_slots.bl_idname, text="Y align", icon='EVENT_Y')
 
 class ALIGN_MT_submenu(bpy.types.Menu):
-	bl_idname = "alignsubmenu"
 	bl_label = "Quick align"
+	bl_idname = "ALIGN_MT_submenu"
 
 	def draw(self, context):
 		layout = self.layout
@@ -95,29 +95,29 @@ class ALIGN_MT_submenu(bpy.types.Menu):
 		layout.prop(tools_settings, "transform_pivot_point", expand=True)
 
 #class panel
-# class QuickAlignPanel(bpy.types.Panel):
-# 	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
-# 	bl_label = "Quick align"
-# 	bl_idname = "quickalignid"
-# 	bl_space_type = 'VIEW_3D'
-# 	bl_region_type = 'TOOLS'
-# 	bl_category = "Nexus Tools"
+class VIEW3D_PT_QuickAlign(bpy.types.Panel):
+	"""Creates a Panel in the view3d context of the tools panel (key "T")"""
+	bl_label = "Quick Align"
+	bl_idname = "VIEW3D_PT_QuickAlign"
+	bl_space_type = 'VIEW_3D'
+	bl_region_type = 'UI'
+	bl_category = "Nexus"
 
-# 	itemsEnum = [
-# 		("ACTIVE_ELEMENT", "Active element", ""),
-# 		("MEDIAN_POINT", "Median point", ""),
-# 		("CURSOR", "3D Cursor", "")
-# 	]
+	itemsEnum = [
+		("ACTIVE_ELEMENT", "Active element", ""),
+		("MEDIAN_POINT", "Median point", ""),
+		("CURSOR", "3D Cursor", "")
+	]
 
-# 	bpy.types.Scene.regarding = EnumProperty(items=itemsEnum)
+	bpy.types.Scene.regarding: EnumProperty(items=itemsEnum)
 
-# 	def draw(self, context):
-# 		layout = self.layout
-# 		scene = context.scene
-# 		box = layout.box()
-# 		box.label(text="Align by:")
-# 		col = box.column()
-# 		col.prop(scene, "regarding", expand=True)
+	def draw(self, context):
+		layout = self.layout
+		tools_settings = context.scene.tool_settings
+		box = layout.box()
+		box.label(text="Align by:")
+		col = box.column()
+		col.prop(tools_settings, "transform_pivot_point", expand=True)
 
 addon_keymaps = []
 keymapsList = [
@@ -160,12 +160,11 @@ classes = (
 	GRAPH_MT_menu,
 	UV_MT_menu,
 	NODE_MT_menu,
-	ALIGN_MT_submenu
-	# QuickAlignPanel
+	ALIGN_MT_submenu,
+	VIEW3D_PT_QuickAlign
 	)
 
 def register():
-	# bpy.utils.register_module(__name__)
 	from bpy.utils import register_class
 	for cls in classes:
 		register_class(cls)
@@ -179,7 +178,6 @@ def register():
 			addon_keymaps.append(km)
 
 def unregister():
-	# bpy.utils.unregister_module(__name__)
 	from bpy.utils import unregister_class
 	for cls in reversed(classes):
 		unregister_class(cls)
@@ -193,42 +191,3 @@ def unregister():
 
 if __name__ == "__main__":
 	register()
-
-
-#################### FOR DROP TO GROUND #####################
-# import bpy
-# from mathutils import *
-
-# ground = bpy.context.active_object
-# obs = bpy.context.selected_objects
-# down = Vector((0.0, 0.0, -1.0))
-
-# obs.remove(ground)
-
-
-
-# def transform_ground_to_world(sc, ground):
-#     tmpMesh = ground.to_mesh(sc, True, 'PREVIEW')
-#     tmpMesh.transform(ground.matrix_world)
-#     tmp_ground = bpy.data.objects.new('tmpGround', tmpMesh)
-#     sc.objects.link(tmp_ground)
-#     sc.update()
-#     return tmp_ground
-
-
-# tmp_ground = transform_ground_to_world(bpy.context.scene, ground)
-# for ob in obs:
-#     if ob.type == "MESH":
-#         is_hit, hit_location, hit_normal, hit_index = tmp_ground.ray_cast(ob.location, down)
-        
-#         if is_hit:
-#             ob.location = hit_location
-
-# bpy.ops.object.select_all(action='DESELECT')
-# tmp_ground.select = True
-# bpy.ops.object.delete('EXEC_DEFAULT')
-# for ob in obs:
-#     ob.select = True
-# ground.select = True
-
-# print(is_hit, hit_location, hit_normal, hit_index)
