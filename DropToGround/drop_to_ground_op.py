@@ -16,7 +16,7 @@ class VIEW3D_OT_drop_to_ground(bpy.types.Operator):
 		quick_align = context.scene.quick_align
 		direction_drop = quick_align.direction_drop
 
-		vector_result = None
+		vector_result = Vector((0, 0, -1)) # down
 		if direction_drop == "-Z":
 			vector_result = Vector((0, 0, -1)) # down
 		elif direction_drop == "Z":
@@ -29,7 +29,11 @@ class VIEW3D_OT_drop_to_ground(bpy.types.Operator):
 			vector_result = Vector((0, -1, 0)) # left
 		elif direction_drop == "Y":
 			vector_result = Vector((0, 1, 0)) # right
-		
+		elif direction_drop == "3DCURSOR":
+			to_loc = context.scene.cursor.location
+			from_loc = context.active_object.location
+			vector_result = (to_loc - from_loc).normalized()
+
 		return vector_result
 
 	def drop_individual_objects(self, context, objects, dir, align_by_normal = False):
