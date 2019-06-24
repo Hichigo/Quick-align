@@ -126,7 +126,8 @@ class QuickAlign_WM_Properties(bpy.types.PropertyGroup):
 			("-X", "-X", "", 2), # backward
 			( "X",  "X", "", 3), # forward
 			("-Y", "-Y", "", 4), # left
-			( "Y",  "Y", "", 5)  # right
+			( "Y",  "Y", "", 5), # right
+			("3DCURSOR",  "to 3D cursor", "", 6)
 		],
 		default = "-Z"
 	)
