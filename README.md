@@ -6,3 +6,4 @@ Addon that speeds up work in several times. Now you no longer have to press a co
 Аддон который ускоряет работу в несколько раз, вам больше не нужно нажмать комбинацию клавиш S> (x, y, z)> 0 для выравнивания объектов и подобъектов ( и не нужно активировать функцию "manipulate center points in object mode". Горячая клавиша для выравнивания alt+ Q
 
 
+Overview video: https://www.youtube.com/watch?v=iwb5yBxMNCQ
