@@ -41,7 +41,7 @@ class VIEW3D_OT_drop_to_ground(bpy.types.Operator):
 		for ob in objects:
 			ob.hide_set(True)
 			bHit, pos_hit, normal_hit, face_index_hit, obj_hit, matrix_world = context.scene.ray_cast(
-				view_layer=context.view_layer,
+				depsgraph=context.view_layer.depsgraph,
 				origin=ob.location,
 				direction=vector_drop_direction
 			)
@@ -81,7 +81,7 @@ class VIEW3D_OT_drop_to_ground(bpy.types.Operator):
 		active_object.hide_set(True)
 
 		bHit, pos_hit, normal_hit, face_index_hit, obj_hit, matrix_world = context.scene.ray_cast(
-			view_layer=context.view_layer,
+			depsgraph=context.view_layer.depsgraph,
 			origin=active_object.location,
 			direction=vector_drop_direction
 		)
