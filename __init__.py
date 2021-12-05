@@ -32,14 +32,14 @@ class OBJECT_OT_SetOrigin(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 
 	def execute(self, context):
-		if (bpy.context.mode == 'EDIT_MESH') or (bpy.context.mode ==  'EDIT_CURVE'):
-			cursor_location_temp = (bpy.context.scene.cursor.location.x,bpy.context.scene.cursor.location.y, bpy.context.scene.cursor.location.z)
+		if (context.mode == 'EDIT_MESH') or (context.mode == 'EDIT_CURVE'):
+			cursor_location_temp = (context.scene.cursor.location.x, context.scene.cursor.location.y, context.scene.cursor.location.z)
 			bpy.ops.view3d.snap_cursor_to_selected()
 			bpy.ops.object.editmode_toggle()
 			bpy.ops.object.origin_set(type = 'ORIGIN_CURSOR')
 			bpy.context.scene.cursor.location = cursor_location_temp
 			#bpy.ops.object.editmode_toggle()
-		elif bpy.context.mode == 'OBJECT':
+		elif context.mode == 'OBJECT':
 			bpy.ops.object.origin_set(type = 'ORIGIN_GEOMETRY')
 
 		return {'FINISHED'}
@@ -47,11 +47,12 @@ class OBJECT_OT_SetOrigin(bpy.types.Operator):
 # -----------------------------------------------------------------------------
 # menu classes
 class VIEW3D_MT_menu(bpy.types.Menu):
+	# bl_idname = "view3d.menu"
 	bl_label = "Quick align"
 
 	def draw(self, context):
 		layout = self.layout
-		layout.operator_context = 'INVOKE_REGION_WIN'
+		# layout.operator_context = 'INVOKE_REGION_WIN'
 		layout.operator(VIEW3D_OT_drop_to_ground.bl_idname, text="Drop to ground", icon="VIEW3D")
 		layout.operator(VIEW3D_OT_align_all_axis.bl_idname, text="Align all axis", icon='EMPTY_AXIS')
 		layout.operator(VIEW3D_OT_align_x_slots.bl_idname, text="X align", icon='EVENT_X')
@@ -97,9 +98,6 @@ class ALIGN_MT_submenu(bpy.types.Menu):
 		layout.operator_context = 'INVOKE_REGION_WIN'
 		layout.prop(tools_settings, "transform_pivot_point", expand=True)
 
-#class panel
-
-
 class QuickAlign_WM_Properties(bpy.types.PropertyGroup):
 
 	align_by_normal: BoolProperty(
@@ -127,7 +125,7 @@ class QuickAlign_WM_Properties(bpy.types.PropertyGroup):
 			( "X",  "X", "", 3), # forward
 			("-Y", "-Y", "", 4), # left
 			( "Y",  "Y", "", 5), # right
-			("3DCURSOR",  "to 3D cursor", "", 6)
+			("3DCURSOR", "to 3D cursor", "", 6)
 		],
 		default = "-Z"
 	)
